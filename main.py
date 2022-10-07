@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 
 import face_recognition
 import numpy as np
@@ -61,6 +62,8 @@ users = User.find().all()
 
 known_face_names, known_face_encodings = zip(*[(user, user.encoded) for user in users])
 
+start = datetime.now()
+
 face_image = face_recognition.load_image_file("images/test/gonzalo.jpeg")
 face_encoding = face_recognition.face_encodings(face_image)[0]
 
@@ -73,4 +76,6 @@ user = 'unknown'
 if matches[best_match_index]:
     user = known_face_names[best_match_index]
 
-print(user)
+end = datetime.now()
+
+print(user, (end - start).total_seconds())
